@@ -1,0 +1,54 @@
+// vim: set ft=groovy :
+
+
+pipeline {
+  agent {
+    docker {
+      image 'quay.io/pypa/manylinux_2_28_x86_64:2024-04-15-dd44d68'
+      args '--entrypoint=manylinux-entrypoint --user=root:root'
+    }
+  }
+  environment {
+    NO_COLOR = '1'
+    PIP_PROGRESS_BAR = 'off'
+    PIP_ROOT_USER_ACTION = 'ignore'
+    PRE_COMMIT_COLOR = 'never'
+    TOX_PARALLEL_NO_SPINNER = '1'
+    _PATH = "/opt/python/cp312-cp312/bin:/opt/python/cp311-cp311/bin:/opt/python/cp310-cp310/bin:/opt/python/cp39-cp39/bin:/opt/python/cp38-cp38/bin:${env.PATH}"
+  }
+  options {
+    buildDiscarder(logRotator(daysToKeepStr: '7'))
+    timeout(time: 15, unit: 'MINUTES')
+  }
+  stages {
+    stage('init') {
+      steps {
+        sh 'dnf --assumeyes --setopt=install_weak_deps=False -- install git'
+        sh 'git config --global --add safe.directory "*"'
+        sh 'env -- PATH="${_PATH}" python -m pip install --upgrade -- pip setuptools wheel'
+        sh 'env -- PATH="${_PATH}" python -m pip install --upgrade -- build pkginfo pre-commit tox twine'
+      }
+    }
+    stage('build') {
+      steps {
+        sh 'env -- PATH="${_PATH}" ./build.sh'
+      }
+    }
+    stage('deploy') {
+      when {
+        branch 'main'
+      }
+      steps {
+        withCredentials([usernamePassword(credentialsId: '5554484d-8a5f-4b62-a098-326ff067c2ce', passwordVariable: 'TWINE_PASSWORD', usernameVariable: 'TWINE_USERNAME')]) {
+          sh 'env -- PATH="${_PATH}" ./deploy.sh'
+        }
+      }
+    }
+  }
+  post {
+    always {
+      junit(allowEmptyResults: true, testResults: 'output/report/junit/*.xml')
+      cleanWs()
+    }
+  }
+}

@@ -1,0 +1,10 @@
+# vim: set ft=pymanifest :
+
+
+# To learn more about MANIFEST.in, please see:
+#
+#   https://packaging.python.org/guides/using-manifest-in/
+#   https://setuptools-scm.readthedocs.io/en/latest/usage/#file-finders-hook-makes-most-of-manifestin-unnecessary
+
+exclude Jenkinsfile
+prune .github

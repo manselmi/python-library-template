@@ -1,0 +1,107 @@
+# vim: set ft=yaml :
+
+
+# To learn more about pre-commit, please see:
+#
+#   https://pre-commit.com
+#   https://pre-commit.com/hooks.html
+
+minimum_pre_commit_version: '3.7.1'
+
+default_language_version:
+  python: 'python3.12'
+
+repos:
+
+  - repo: 'https://github.com/astral-sh/ruff-pre-commit'
+    rev: 'v0.4.8'
+    hooks:
+      - id: 'ruff'
+        args:
+          - '--fix'
+        stages:
+          - 'commit'
+      - id: 'ruff'
+        alias: 'ruff-ci'
+        args:
+          - '--diff'
+        stages:
+          - 'manual'
+      - id: 'ruff'
+        alias: 'ruff-ci-junit'
+        args:
+          - '--no-fix'
+          - '--output-file=output/report/junit/ruff.xml'
+          - '--output-format=junit'
+        stages:
+          - 'manual'
+      - id: 'ruff-format'
+        stages:
+          - 'commit'
+      - id: 'ruff-format'
+        alias: 'ruff-format-ci'
+        args:
+          - '--diff'
+        stages:
+          - 'manual'
+
+  - repo: 'https://github.com/pre-commit/mirrors-mypy'
+    rev: 'v1.10.0'
+    hooks:
+      - id: 'mypy'
+        files: '^src/'
+        pass_filenames: false
+        args:
+          - '--package'
+          - '{{ cookiecutter.import_pkg_name }}'
+        stages:
+          - 'commit'
+          - 'manual'
+        additional_dependencies:
+          - 'lxml'
+
+  - repo: 'https://github.com/pre-commit/pre-commit-hooks'
+    rev: 'v4.6.0'
+    hooks:
+      - id: 'check-case-conflict'
+        stages:
+          - 'commit'
+          - 'manual'
+      - id: 'check-json'
+        stages:
+          - 'commit'
+          - 'manual'
+      - id: 'check-symlinks'
+        stages:
+          - 'commit'
+          - 'manual'
+      - id: 'check-toml'
+        stages:
+          - 'commit'
+          - 'manual'
+      - id: 'check-vcs-permalinks'
+        stages:
+          - 'commit'
+          - 'manual'
+      - id: 'check-yaml'
+        stages:
+          - 'commit'
+          - 'manual'
+      - id: 'destroyed-symlinks'
+        stages:
+          - 'commit'
+          - 'manual'
+      - id: 'end-of-file-fixer'
+        stages:
+          - 'commit'
+          - 'manual'
+      - id: 'fix-byte-order-marker'
+        stages:
+          - 'commit'
+          - 'manual'
+      - id: 'trailing-whitespace'
+        args:
+          - '--markdown-linebreak-ext=md'
+        stages:
+          - 'commit'
+          - 'manual'

@@ -1,0 +1,13 @@
+{
+  "project_name": "Library",
+  "project_short_description": "Library containing all the boilerplate you need to create a Python package.",
+  "author": "Mike Anselmi",
+  "author_email": "git@manselmi.com",
+  "github_username": "{{ cookiecutter.author_email.split('@', 1)[0] }}",
+  "github_code_owner": "{{ cookiecutter.github_username }}",
+  "repo_name": "{{ cookiecutter.project_name.lower().replace(' ', '-').replace('_', '-').replace('.', '-') }}",
+  "namespace": "manselmi",
+  "distribution_pkg_name": "{{ cookiecutter.namespace }}.{{ cookiecutter.repo_name }}",
+  "import_pkg_name": "{{ cookiecutter.distribution_pkg_name.replace('-', '_') }}",
+  "__project_url": "https://git.manselmi.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_name }}"
+}

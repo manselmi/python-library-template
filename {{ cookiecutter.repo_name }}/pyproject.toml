@@ -1,0 +1,173 @@
+# vim: set ft=toml :
+
+
+[build-system]
+build-backend = 'setuptools.build_meta'
+requires = [
+  'setuptools',
+  'setuptools-scm',
+  'wheel',
+]
+
+
+[project]
+authors = [
+  {name = '''{{ cookiecutter.author }}''', email = '''{{ cookiecutter.author_email }}'''},
+]
+description = '''{{ cookiecutter.project_short_description }}'''
+dynamic = [
+  'version',
+]
+readme = 'README.md'
+requires-python = '>=3.9'
+name = '''{{ cookiecutter.distribution_pkg_name }}'''
+
+[project.urls]
+Homepage = '''{{ cookiecutter.__project_url }}'''
+
+
+[tool.coverage.html]
+show_contexts = true
+skip_covered = false
+skip_empty = false
+
+[tool.coverage.report]
+exclude_also = [
+  'if TYPE_CHECKING:',
+]
+fail_under = 100
+show_missing = true
+skip_covered = true
+skip_empty = true
+
+[tool.coverage.run]
+dynamic_context = 'test_function'
+
+
+[tool.mypy]
+html_report = 'output/report/html/mypy'
+junit_xml = 'output/report/junit/mypy.xml'
+local_partial_types = true
+mypy_path = 'src'
+namespace_packages = true
+python_version = '3.9'
+strict = true
+
+
+[tool.ruff]
+line-length = 100
+target-version = 'py39'
+
+[tool.ruff.lint]
+dummy-variable-rgx = '^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$'
+fixable = ['ALL']
+ignore = [
+  'ANN',      # mypy handles our type annotations
+  'COM812',   # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  'COM819',   # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  'CPY',      # not publishing publicly
+  'D',        # we prefer our own docstring style
+  'E111',     # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  'E114',     # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  'E117',     # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  'ERA',      # do not remove commented-out code
+  'ISC001',   # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  'ISC002',   # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  'Q000',     # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  'Q001',     # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  'Q002',     # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  'Q003',     # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+  'TCH',      # TYPE_CHECKING blocks break autodocs
+  'W191',     # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+]
+select = ['ALL']
+unfixable = []
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+known-first-party = [
+  '''{{ cookiecutter.namespace.split(".", 1)[0] }}''',
+]
+known-third-party = [
+  'packaging',
+  'pytest',
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.per-file-ignores]
+'test/**/*.py' = [
+  'INP001',
+]
+'__init__.py' = [
+  'F401',
+]
+
+
+[tool.pytest.ini_options]
+addopts = [
+  '-r', 'a',
+  '--import-mode=importlib',
+  '--showlocals',
+  '--strict-config',
+  '--strict-markers',
+  '--verbosity=2',
+]
+markers = [
+  'unit: mark as unit test (auto-applied if test file under "unit" directory)',
+  'integration: mark as integration test (auto-applied if test file under "integration" directory)',
+  'slow: mark as slow',
+]
+testpaths = [
+  'test',
+]
+xfail_strict = true
+
+
+[tool.setuptools.dynamic]
+version = {attr = '''{{ cookiecutter.import_pkg_name }}._version.version'''}
+
+[tool.setuptools.packages.find]
+namespaces = true
+where = [
+  'src',
+]
+
+
+[tool.setuptools_scm]
+local_scheme = 'node-and-timestamp'
+version_file = '''src/{{ cookiecutter.import_pkg_name.replace(".", "/") }}/_version.py'''
+version_scheme = 'guess-next-dev'
+
+
+[tool.tox]
+legacy_tox_ini = '''
+[tox]
+envlist =
+  py39
+  py310
+  py311
+  py312
+isolated_build = true
+skip_missing_interpreters = true
+
+[testenv]
+commands =
+  pytest \
+    --basetemp={envtmpdir} \
+    --cov-report=html:output/report/html/coverage-{envname} \
+    --cov={{ cookiecutter.import_pkg_name }} \
+    --html=output/report/html/pytest-{envname}/index.html \
+    --junitxml=output/report/junit/pytest-{envname}.xml \
+    {posargs}
+deps =
+  ansi2html
+  coverage[toml]
+  packaging
+  pytest
+  pytest-cov
+  pytest-html
+setenv =
+  COVERAGE_FILE = .coverage-{envname}
+'''
