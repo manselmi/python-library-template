@@ -25,16 +25,16 @@ For example:
 tox
 
 # run all tests with multiple Python versions in parallel
-tox -e py39,py310,py311,py312 -p auto
+tox -e py39,py310,py311,py312,py313 -p auto
 
-# run all tests marked as unit tests with Python 3.12
-tox -e py312 -- -m unit
+# run all tests marked as unit tests with Python 3.13
+tox -e py313 -- -m unit
 
-# run all tests not marked as slow with Python 3.12
-tox -e py312 -- -m 'not slow'
+# run all tests not marked as slow with Python 3.13
+tox -e py313 -- -m 'not slow'
 
-# run a single test with Python 3.12, ignoring insufficient coverage
-tox -e py312 -- --cov-fail-under=0 -- test/unit/test_version.py::test_version
+# run a single test with Python 3.13, ignoring insufficient coverage
+tox -e py313 -- --cov-fail-under=0 -- test/unit/test_version.py::test_version
 
 # run tox with zero or more tox options
 tox [tox_options]

@@ -4,7 +4,7 @@
 pipeline {
   agent {
     docker {
-      image 'quay.io/pypa/manylinux_2_28_x86_64:2024-04-15-dd44d68'
+      image 'quay.io/pypa/manylinux_2_28_x86_64:2024-10-07-1887322'
       args '--entrypoint=manylinux-entrypoint --user=root:root'
     }
   }
@@ -15,7 +15,7 @@ pipeline {
     PIP_ROOT_USER_ACTION = 'ignore'
     PRE_COMMIT_COLOR = 'never'
     TOX_PARALLEL_NO_SPINNER = '1'
-    _PATH = "/opt/python/cp312-cp312/bin:/opt/python/cp311-cp311/bin:/opt/python/cp310-cp310/bin:/opt/python/cp39-cp39/bin:/opt/python/cp38-cp38/bin:${env.PATH}"
+    _PATH = "/opt/python/cp313-cp313/bin:/opt/python/cp312-cp312/bin:/opt/python/cp311-cp311/bin:/opt/python/cp310-cp310/bin:/opt/python/cp39-cp39/bin:${env.PATH}"
   }
   options {
     buildDiscarder(logRotator(daysToKeepStr: '7'))
@@ -42,7 +42,7 @@ pipeline {
         branch 'main'
       }
       steps {
-        withCredentials([usernamePassword(credentialsId: '5554484d-8a5f-4b62-a098-326ff067c2ce', passwordVariable: 'TWINE_PASSWORD', usernameVariable: 'TWINE_USERNAME')]) {
+        withCredentials([usernamePassword(credentialsId: '00000000-0000-0000-0000-000000000000', passwordVariable: 'TWINE_PASSWORD', usernameVariable: 'TWINE_USERNAME')]) {
           sh 'env -- PATH="${_PATH}" ./deploy.sh'
         }
       }
