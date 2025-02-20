@@ -3,8 +3,9 @@
 
 pipeline {
   agent {
-    node {
-      label 'manylinux_2_28_aarch64'
+    docker {
+      image 'quay.io/pypa/manylinux_2_28_x86_64:2024-10-21-dc83211'
+      args '--entrypoint=manylinux-entrypoint --user=root:root'
     }
   }
   environment {
@@ -23,7 +24,7 @@ pipeline {
   stages {
     stage('init') {
       steps {
-        // sh 'dnf --assumeyes --setopt=install_weak_deps=False -- install git'
+        sh 'dnf --assumeyes --setopt=install_weak_deps=False -- install git'
         sh 'git config --global --add safe.directory "*"'
         sh 'git config --global user.name Jenkins'
         sh 'git config --global user.email jenkins@manselmi.com'
@@ -36,16 +37,16 @@ pipeline {
         sh 'env -- PATH="${_PATH}" ./build.sh'
       }
     }
-    // stage('deploy') {
-    //   when {
-    //     branch 'main'
-    //   }
-    //   steps {
-    //     withCredentials([usernamePassword(credentialsId: '00000000-0000-0000-0000-000000000000', passwordVariable: 'TWINE_PASSWORD', usernameVariable: 'TWINE_USERNAME')]) {
-    //       sh 'env -- PATH="${_PATH}" ./deploy.sh'
-    //     }
-    //   }
-    // }
+    stage('deploy') {
+      when {
+        branch 'main'
+      }
+      steps {
+        withCredentials([usernamePassword(credentialsId: '00000000-0000-0000-0000-000000000000', passwordVariable: 'TWINE_PASSWORD', usernameVariable: 'TWINE_USERNAME')]) {
+          sh 'env -- PATH="${_PATH}" ./deploy.sh'
+        }
+      }
+    }
   }
   post {
     always {
