@@ -40,9 +40,6 @@ show_missing = true
 skip_covered = true
 skip_empty = true
 
-[tool.coverage.run]
-dynamic_context = 'test_function'
-
 
 [tool.mypy]
 html_report = 'output/report/html/mypy'
@@ -158,6 +155,7 @@ skip_missing_interpreters = true
 commands =
   pytest \
     --basetemp={envtmpdir} \
+    --cov-context=test \
     --cov-report=html:output/report/html/coverage-{envname} \
     --cov={{ cookiecutter.import_pkg_name }} \
     --html=output/report/html/pytest-{envname}/index.html \
