@@ -19,7 +19,7 @@ dynamic = [
   'version',
 ]
 readme = 'README.md'
-requires-python = '>=3.9'
+requires-python = '>=3.10'
 name = '''{{ cookiecutter.distribution_pkg_name }}'''
 
 [project.urls]
@@ -47,14 +47,14 @@ junit_xml = 'output/report/junit/mypy.xml'
 local_partial_types = true
 mypy_path = 'src'
 namespace_packages = true
-python_version = '3.9'
+python_version = '3.10'
 strict = true
 strict_bytes = true
 
 
 [tool.ruff]
 line-length = 100
-target-version = 'py39'
+target-version = 'py310'
 
 [tool.ruff.lint]
 dummy-variable-rgx = '^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$'
@@ -143,7 +143,6 @@ version_scheme = 'guess-next-dev'
 legacy_tox_ini = '''
 [tox]
 envlist =
-  py39
   py310
   py311
   py312

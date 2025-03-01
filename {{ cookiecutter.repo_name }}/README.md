@@ -25,7 +25,7 @@ For example:
 tox
 
 # run all tests with multiple Python versions in parallel
-tox -e py39,py310,py311,py312,py313 -p auto
+tox -e py310,py311,py312,py313 -p auto
 
 # run all tests marked as unit tests with Python 3.13
 tox -e py313 -- -m unit
