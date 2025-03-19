@@ -6,7 +6,7 @@
 #   https://pre-commit.com
 #   https://pre-commit.com/hooks.html
 
-minimum_pre_commit_version: '4.1.0'
+minimum_pre_commit_version: '4.2.0'
 
 default_language_version:
   python: 'python3.13'
@@ -14,7 +14,7 @@ default_language_version:
 repos:
 
   - repo: 'https://github.com/astral-sh/ruff-pre-commit'
-    rev: 'v0.9.9'
+    rev: 'v0.11.0'
     hooks:
       - id: 'ruff'
         args:
