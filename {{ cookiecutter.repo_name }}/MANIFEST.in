@@ -3,7 +3,7 @@
 
 # To learn more about MANIFEST.in, please see:
 #
-#   https://packaging.python.org/guides/using-manifest-in/
+#   https://setuptools.pypa.io/en/latest/userguide/miscellaneous.html#controlling-files-in-the-distribution
 #   https://setuptools-scm.readthedocs.io/en/latest/usage/#file-finders-hook-makes-most-of-manifestin-unnecessary
 
 exclude Jenkinsfile
