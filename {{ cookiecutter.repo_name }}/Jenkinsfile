@@ -4,7 +4,7 @@
 pipeline {
   agent {
     docker {
-      image 'quay.io/pypa/manylinux_2_28_x86_64:2024-10-21-dc83211'
+      image 'quay.io/pypa/manylinux_2_28_aarch64:2025-06-08-55fabc7'
       args '--entrypoint=manylinux-entrypoint --user=root:root'
     }
   }
