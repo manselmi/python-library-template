@@ -43,6 +43,7 @@ skip_empty = true
 
 [tool.mypy]
 allow_redefinition_new = true
+fixed_format_cache = true
 html_report = 'output/report/html/mypy'
 junit_xml = 'output/report/junit/mypy.xml'
 local_partial_types = true
@@ -58,8 +59,9 @@ line-length = 100
 target-version = 'py310'
 
 [tool.ruff.lint]
-dummy-variable-rgx = '^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$'
+explicit-preview-rules = true
 fixable = ['ALL']
+future-annotations = true
 ignore = [
   'ANN',      # mypy handles our type annotations
   'COM812',   # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
@@ -79,6 +81,7 @@ ignore = [
   'TCH',      # TYPE_CHECKING blocks break autodocs
   'W191',     # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
 ]
+preview = true
 select = ['ALL']
 unfixable = []
 
