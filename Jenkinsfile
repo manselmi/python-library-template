@@ -4,7 +4,7 @@
 pipeline {
   agent {
     docker {
-      image 'quay.io/pypa/manylinux_2_28_aarch64:2025-06-08-55fabc7'
+      image 'quay.io/pypa/manylinux_2_28_aarch64:2025.10.05-1'
       args '--entrypoint=manylinux-entrypoint --user=root:root'
     }
   }
@@ -15,7 +15,7 @@ pipeline {
     PIP_ROOT_USER_ACTION = 'ignore'
     PRE_COMMIT_COLOR = 'never'
     TOX_PARALLEL_NO_SPINNER = '1'
-    _PATH = "/opt/python/cp313-cp313/bin:/opt/python/cp312-cp312/bin:/opt/python/cp311-cp311/bin:/opt/python/cp310-cp310/bin:${env.PATH}"
+    _PATH = "/opt/python/cp314-cp314/bin:/opt/python/cp313-cp313/bin:/opt/python/cp312-cp312/bin:/opt/python/cp311-cp311/bin:/opt/python/cp310-cp310/bin:${env.PATH}"
   }
   options {
     buildDiscarder(logRotator(daysToKeepStr: '7'))
