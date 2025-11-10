@@ -107,13 +107,11 @@ max-complexity = 10
 ]
 
 
-[tool.pytest.ini_options]
+[tool.pytest]
 addopts = [
   '-r', 'a',
   '--import-mode=importlib',
   '--showlocals',
-  '--strict-config',
-  '--strict-markers',
   '--verbosity=2',
 ]
 markers = [
@@ -121,10 +119,10 @@ markers = [
   'integration: mark as integration test (auto-applied if test file under "integration" directory)',
   'slow: mark as slow',
 ]
+strict = true
 testpaths = [
   'test',
 ]
-xfail_strict = true
 
 
 [tool.setuptools.dynamic]
