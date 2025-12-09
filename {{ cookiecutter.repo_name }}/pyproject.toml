@@ -43,6 +43,10 @@ skip_empty = true
 
 [tool.mypy]
 allow_redefinition_new = true
+enable_incomplete_feature = [
+  'PreciseTupleTypes',
+  'TypeForm',
+]
 fixed_format_cache = true
 html_report = 'output/report/html/mypy'
 junit_xml = 'output/report/junit/mypy.xml'
